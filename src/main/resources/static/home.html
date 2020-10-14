@@ -3,6 +3,20 @@
 <head>
 <title>Hospital</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style>
+.largebox {
+	width: 300px;
+	height: 100px;
+	border: 1px solid blue;
+}
+
+.smallbox {
+	width: 300px;
+	height: 30px;
+	border: 1px solid blue;
+}
+</style>
 <script language="javascript">
     
 
@@ -40,6 +54,7 @@
     var addrs=null;
     var disease=null;
     
+    
 	     function getdocdetails() {
 	    	var xmlhttp = new XMLHttpRequest();
 	        var disease = document.getElementById("diseasename");
@@ -63,11 +78,27 @@
 	        	console.log(doctorId);//101
 	        	console.log(doctorName);
 	        	console.log(roomNo);
-	        	document.getElementById("docid").innerHTML = doctorId;
-	        	document.getElementById("docname").innerHTML = doctorName;
-	        	document.getElementById("roomno").innerHTML = roomNo; 
+	        	 
+	        	
+	        	if(!doctorName){
+	        		document.getElementById("noDoc").innerHTML = "No Doctor Available";
+	        		document.getElementById("docid").innerHTML = null;
+		        	document.getElementById("docname").innerHTML = null;
+		        	document.getElementById("roomno").innerHTML = null;
+		        	document.getElementById("sbox").style.display = "block";
+		        	document.getElementById("lbox").style.display = "none";
+	        	}
+	        	else{
+	        		document.getElementById("docid").innerHTML = "Id : "+doctorId; //"Id : 123"
+		        	document.getElementById("docname").innerHTML = "Name : "+doctorName;
+		        	document.getElementById("roomno").innerHTML = "Room No : "+roomNo;
+		        	document.getElementById("noDoc").innerHTML = null;
+		        	document.getElementById("lbox").style.display = "block";
+		        	document.getElementById("sbox").style.display = "none";
+	        	}
 	        }
 	    }
+	     function postPatientDetails(){
 	     const data = JSON.stringify({
 	    	    mob: "+919437496183",
 	    	    name: "Hari",
@@ -81,9 +112,9 @@
 	     var mobileNo = document.getElementById("mob");
 	     var name = document.getElementById("name");
 	     var age = document.getElementById("age");
-	     var gender = document.getElementById("gender");
+	     var gender = document.getElementById("genderF");
 	     var addrs = document.getElementById("address");
-	     var disease = document.getElementById("disease");
+	     var disease = document.getElementById("diseasename");
 	    	xhr.withCredentials = true
 
 	    	xhr.addEventListener('readystatechange', function() {
@@ -92,8 +123,10 @@
 	    	  }
 	    	})
 
-	    	xhr.open('POST', 'https://localhost:9898/updatePatientDetails/'+mobileNo.value+name.value+age.value+
-	    			gender.value+addrs.value+disease.value)
+	    	xhr.open('POST', 'http://localhost:9898/updatePatientDetails/'+mobileNo.value+'/'+name.value+'/'+age.value+'/'+
+	    			gender.value+'/'+addrs.value+'/'+disease.value)
+	    			
+	    	//https://localhost:9898/updatePatientDetails/12345/lucyfemalenalcofever
 	    	xhr.setRequestHeader('content-type', 'application/json')
 	    	xhr.setRequestHeader('authorization', 'Bearer 123abc456def')
 
@@ -113,6 +146,7 @@
 	        	console.log(disease);
 	        	
 	        }
+	     }
   
 	     /* fetch('https://localhost:9898/updatePatientDetails/mobileno/name/age/gender/address/disease', {
 	    	  method: 'POST',
@@ -145,36 +179,40 @@
 		<input id="diseasename" type="text" name="text" class="search"
 			placeholder="disease" />
 		<button type="button" onclick="getdocdetails()">Search</button>
+
 		
-		<input id="mob" id="name" id="age" id="gender" id="address" id="disease" type="number" name="text" class="submitdetails"
-			placeholder="details" />
-		<button type="button" >SubmitDetails</button>
 		<table>
 			<td>Doctor's Status:</td>
 			<td>
-           
-				<!--  <p id="docid"></p> 
-				<p id="docname"></p>
-				<p id="roomno"></p>  -->
-				
+				<div id="lbox" class=largebox>
+					<p id="docid"></p>
+					<p id="docname"></p>
+					<p id="roomno"></p>
+				</div> 
+				<div id="sbox" class=smallbox>
+					<p id="noDoc"></p>
+				</div>
 			</td>
 		</table>
 		<table>
 			<tr>
 				<th>Name</th>
-				<td><input type="text" name=""></td>
+				<td><input id="name"type="text" name=""></td>
 				<th>Age</th>
-				<td><input type="text" name=""></td>
-                <th>Mob</th>
-				<td><input type="number" name=""></td>
-				<td><input type="radio" name="Gender">Male <input
+				<td><input id="age" type="text" name=""></td>
+				<th>Mob</th>
+				<td><input id="mob" type="number" name=""></td>
+				<td><input id="genderM" type="radio" name="Gender">Male 
+				<input id="genderF"
 					type="radio" name="Gender">Female</td>
 			<tr>
 				<td>Address</td>
-				<td><input type="text" name=""></td>
+				<td><input id="address" type="text" name=""></td>
 			</tr>
 			</tr>
 		</table>
+		
+		<button type="button" onclick="postPatientDetails()">SubmitDetails</button>
 	</form>
 </body>
 </html>

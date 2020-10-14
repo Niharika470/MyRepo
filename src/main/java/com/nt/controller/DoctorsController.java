@@ -70,7 +70,6 @@ public class DoctorsController {
 		PatientBO patientBo = null;
 		if (null != mob) {
 			patientBo = patientDao.findByPatientMob(mob);
-			patientBo.getAddress();
 		}
 
 		if (patientBo != null && patientBo.getPatientMob().equalsIgnoreCase(mob)) {
