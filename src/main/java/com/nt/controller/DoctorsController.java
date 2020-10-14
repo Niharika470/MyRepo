@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nt.bo.DoctorsBO;
@@ -62,25 +63,24 @@ public class DoctorsController {
 		return doctorsDto;
 	}
 
-	@PostMapping(value = "/updatePatientDetails/{mobileno}/{name}/{age}/{gender}/{address}/{disease}")
-	public String updaupdatePatientDetailste(@PathVariable(value = "mobileno") String mob,
-			@PathVariable(value = "name") String pName, @PathVariable(value = "age") String pAge,
-			@PathVariable(value = "gender") String gen, @PathVariable(value = "address") String addrs,
-			@PathVariable(value = "disease") String diseasename) {
+	@PostMapping(value = "/updatePatientDetails/{disease}")
+	public String updaupdatePatientDetailste(@PathVariable(value = "disease") String diseasename,
+			@RequestBody PatientDTO patientDTO) {
+		System.out.println(patientDTO.toString());
 		PatientBO patientBo = null;
-		if (null != mob) {
-			patientBo = patientDao.findByPatientMob(mob);
+		if (null != patientDTO.getPatientMob()) {
+			patientBo = patientDao.findByPatientMob(patientDTO.getPatientMob());
 		}
 
-		if (patientBo != null && patientBo.getPatientMob().equalsIgnoreCase(mob)) {
+		if (patientBo != null && patientBo.getPatientMob().equalsIgnoreCase(patientDTO.getPatientMob())) {
 			return "Patientdata already available";
 		} else {
 			patientBo = new PatientBO();
-			patientBo.setPatientMob(mob);
-			patientBo.setPatientName(pName);
-			patientBo.setPatientAge(Integer.valueOf(pAge)); // Integer.valueOf(Value) / (Integer)value
-			patientBo.setGender(gen);
-			patientBo.setAddress(addrs);
+			patientBo.setPatientMob(patientDTO.getPatientMob());
+			patientBo.setPatientName(patientDTO.getPatientName());
+			patientBo.setPatientAge(Integer.valueOf(patientDTO.getPatientAge())); // Integer.valueOf(Value) / (Integer)value
+			patientBo.setGender(patientDTO.getGender());
+			patientBo.setAddress(patientDTO.getAddress());
 			patientBo.setReasonOfVisit(diseasename);
 
 			patientDao.save(patientBo);

@@ -98,24 +98,25 @@
 	        	}
 	        }
 	    }
-	     function postPatientDetails(){
-	     const data = JSON.stringify({
-	    	    mob: "+919437496183",
-	    	    name: "Hari",
-	    	    age:25,
-	    	    gender:"male",
-	    	    address:"hyd",
-	    	    disease:"fever"
+	     
+	     
+     function postPatientDetails(){
+	     var body = JSON.stringify({
+	    	patientMob: "\""+document.getElementById(\"mob\")+"\"",
+	    	patientName: "\""+document.getElementById("name")+"\"",
+   	 		patientAge: document.getElementById("age"),
+    	    gender: "\""+document.getElementById("female")+"\"",
+    	    address: "\""+document.getElementById("address")+"\""
 	    	})
 
 	    	const xhr = new XMLHttpRequest()
-	     var mobileNo = document.getElementById("mob");
+	    /*  var mobileNo = document.getElementById("mob");
 	     var name = document.getElementById("name");
 	     var age = document.getElementById("age");
 	     var gender = document.getElementById("genderF");
-	     var addrs = document.getElementById("address");
+	     var addrs = document.getElementById("address"); */
 	     var disease = document.getElementById("diseasename");
-	    	xhr.withCredentials = true
+	    	
 
 	    	xhr.addEventListener('readystatechange', function() {
 	    	  if (this.readyState === this.DONE) {
@@ -123,28 +124,26 @@
 	    	  }
 	    	})
 
-	    	xhr.open('POST', 'http://localhost:9898/updatePatientDetails/'+mobileNo.value+'/'+name.value+'/'+age.value+'/'+
-	    			gender.value+'/'+addrs.value+'/'+disease.value)
-	    			
+	    	/* xhr.open('POST', 'http://localhost:9898/updatePatientDetails/'+mobileNo.value+'/'+name.value
+	    			+'/'+age.value+'/'+gender.value+'/'+addrs.value+'/'+disease.value)
+	    			 */
 	    	//https://localhost:9898/updatePatientDetails/12345/lucyfemalenalcofever
+	    	xhr.open('POST', 'http://localhost:9898/updatePatientDetails/'+disease.value)
 	    	xhr.setRequestHeader('content-type', 'application/json')
-	    	xhr.setRequestHeader('authorization', 'Bearer 123abc456def')
 
-	    	xhr.send(data);
+	    	xhr.send(body);
 	    	xhr.onload=function(){
-	        	 mobileNo=xhr.response.mob;
-	        	 name=xhr.response.name;
-	        	 age=xhr.response.age;
+	        	 mobileNo=xhr.response.patientMob;
+	        	 name=xhr.response.patientName;
+	        	 age=xhr.response.patientAge;
 	        	 gender=xhr.response.gender;
 	        	 addrs=xhr.response.address;
-	        	 disease=xhr.response.disease;
+	        	 
 	        	console.log(mobileNo);
 	        	console.log(name);
 	        	console.log(age);
 	        	console.log(gender);
 	        	console.log(addrs);
-	        	console.log(disease);
-	        	
 	        }
 	     }
   
@@ -176,11 +175,9 @@
 	<h2>Hospital Management System</h2>
 	<hr />
 	<form>
-		<input id="diseasename" type="text" name="text" class="search"
-			placeholder="disease" />
+		<input id="diseasename" type="text" name="text" class="search"	placeholder="disease" />
 		<button type="button" onclick="getdocdetails()">Search</button>
 
-		
 		<table>
 			<td>Doctor's Status:</td>
 			<td>
@@ -188,7 +185,7 @@
 					<p id="docid"></p>
 					<p id="docname"></p>
 					<p id="roomno"></p>
-				</div> 
+				</div>
 				<div id="sbox" class=smallbox>
 					<p id="noDoc"></p>
 				</div>
@@ -197,21 +194,22 @@
 		<table>
 			<tr>
 				<th>Name</th>
-				<td><input id="name"type="text" name=""></td>
+				<td><input id="name" type="text" name=""></td>
 				<th>Age</th>
 				<td><input id="age" type="text" name=""></td>
 				<th>Mob</th>
 				<td><input id="mob" type="number" name=""></td>
-				<td><input id="genderM" type="radio" name="Gender">Male 
-				<input id="genderF"
-					type="radio" name="Gender">Female</td>
-			<tr>
-				<td>Address</td>
-				<td><input id="address" type="text" name=""></td>
-			</tr>
+				<td><input id="male" type="radio" name="Gender" value="male">
+					<label for="male">Male</label> <br> <input id="female"
+					type="radio" name="Gender" value="female"> <label
+					for="female">Female</label> <br>
+				<tr>
+					<td>Address</td>
+					<td><input id="address" type="text" name=""></td>
+				</tr>
 			</tr>
 		</table>
-		
+
 		<button type="button" onclick="postPatientDetails()">SubmitDetails</button>
 	</form>
 </body>
