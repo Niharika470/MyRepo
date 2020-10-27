@@ -1,5 +1,7 @@
 package com.nt.dto;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PatientDTO {
@@ -9,7 +11,18 @@ public class PatientDTO {
 	private int patientAge;
 	private String gender;
 	private String address;
+	private String bloodGroup;
+	private List<ConsultationDTO> consultationDTOList;
+	private ConsultationDTO consultaDto;
 	
+	public ConsultationDTO getConsultaDto() {
+		return consultaDto;
+	}
+	
+	@JsonProperty("consultaDto")
+	public void setConsultaDto(ConsultationDTO consultaDto) {
+		this.consultaDto = consultaDto;
+	}
 	public String getPatientMob() {
 		return patientMob;
 	}
@@ -28,8 +41,8 @@ public class PatientDTO {
 		return patientAge;
 	}
 	@JsonProperty("patientAge")
-	public void setPatientAge(int patientAge) {
-		this.patientAge = patientAge;
+	public void setPatientAge(int string) {
+		this.patientAge = string;
 	}
 	public String getGender() {
 		return gender;
@@ -45,10 +58,26 @@ public class PatientDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	@JsonProperty("bloodgroup")
+	public void setBloodGroup(String bloodGroup) {
+		this.bloodGroup = bloodGroup;
+	}
+	public String getBloodGroup() {
+		return bloodGroup;
+	}
+	
+	public List<ConsultationDTO> getConsultationDTOList() {
+		return consultationDTOList;
+	}
+	@JsonProperty("consultaDTOList")
+	public void setConsultationDTOList(List<ConsultationDTO> consultationDTOList) {
+		this.consultationDTOList = consultationDTOList;
+	}
 	@Override
 	public String toString() {
 		return "PatientDTO [patientMob=" + patientMob + ", patientName=" + patientName + ", patientAge=" + patientAge
-				+ ", gender=" + gender + ", address=" + address + "]";
+				+ ", gender=" + gender + ", address=" + address + ", bloodGroup=" + bloodGroup
+				+ ", consultationDTOList=" + consultationDTOList + ", consultaDto=" + consultaDto + "]";
 	}
 
 	

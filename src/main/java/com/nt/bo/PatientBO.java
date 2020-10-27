@@ -31,49 +31,75 @@ public class PatientBO {
 	@Column(name="Address")
 	private String address;
 	
-	
-	
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	@Column(name="bloodgroup")
+	private String bloodGroup;
+
 	public String getPatientMob() {
 		return patientMob;
 	}
+
 	public void setPatientMob(String patientMob) {
 		this.patientMob = patientMob;
 	}
+
 	public String getPatientName() {
 		return patientName;
 	}
+
 	public void setPatientName(String patientName) {
 		this.patientName = patientName;
 	}
+
 	public int getPatientAge() {
 		return patientAge;
 	}
+
 	public void setPatientAge(int patientAge) {
 		this.patientAge = patientAge;
 	}
+
 	public String getGender() {
 		return gender;
 	}
+
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
 	public String getReasonOfVisit() {
 		return reasonOfVisit;
 	}
+
 	public void setReasonOfVisit(String reasonOfVisit) {
 		this.reasonOfVisit = reasonOfVisit;
 	}
+
 	public String getVisitHistory() {
 		return visitHistory;
 	}
+
 	public void setVisitHistory(String visitHistory) {
 		this.visitHistory = visitHistory;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getBloodGroup() {
+		return bloodGroup;
+	}
+
+	public void setBloodGroup(String bloodGroup) {
+		this.bloodGroup = bloodGroup;
+	}
 }
+	
+	
+	
+	
+	

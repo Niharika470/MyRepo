@@ -11,19 +11,19 @@ public class DoctorsBO {
 	
 	
 	@Id
-	@Column(name="DocId")
+	@Column(name="doc_id")
 	private long docId;
 	
-	@Column(name="DocName")
+	@Column(name="doc_name")
 	private String docName;
 	
-	@Column(name="DocShiftTiming")
+	@Column(name="doc_shift_timing")
 	private String docShiftTiming;
 	
-	@Column(name="RoomNo")
+	@Column(name="room_no")
 	private String roomNo;
 	
-	@Column(name="SpecialistFor")
+	@Column(name="specialist_for")
 	private String specialistFor;
 	
 	

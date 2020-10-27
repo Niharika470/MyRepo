@@ -1,0 +1,1 @@
+INSERT INTO `database`.`doctorsdetails` (`doc_id`, `doc_name`, `doc_shift_timing`, `room_no`, `specialist_for`) VALUES ('102', 'K.Das', 'afternoon', '12B', 'eye');
