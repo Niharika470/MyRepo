@@ -4,11 +4,11 @@ public class DoctorsDTO {
 	
 	
 	private long docId;
-	
 	private String docName;
-	
-	
 	private String roomNo;
+	private String specialistFor;
+	private String mobileNo;
+	
 
 
 	public long getDocId() {
@@ -39,6 +39,17 @@ public class DoctorsDTO {
 	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
 	}
-	
+	public String getSpecialistFor() {
+		return specialistFor;
+	}
+	public void setSpecialistFor(String specialistFor) {
+		this.specialistFor = specialistFor;
+	}
+	public String getMobileNo() {
+		return mobileNo;
+	}
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
 	
 }

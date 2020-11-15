@@ -33,6 +33,10 @@ public class PatientBO {
 	
 	@Column(name="bloodgroup")
 	private String bloodGroup;
+	
+	@Column(name="emailid")
+	private String emailId;
+	
 
 	public String getPatientMob() {
 		return patientMob;
@@ -96,6 +100,13 @@ public class PatientBO {
 
 	public void setBloodGroup(String bloodGroup) {
 		this.bloodGroup = bloodGroup;
+	}
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 }
 	

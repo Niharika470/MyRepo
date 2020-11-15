@@ -1,10 +1,12 @@
 package com.nt.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,14 +14,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nt.bo.ConsultationBO;
+import com.nt.bo.ConsultationTrackerBO;
 import com.nt.bo.DoctorsBO;
 import com.nt.bo.PatientBO;
 import com.nt.dao.ConsultationDAO;
+import com.nt.dao.ConsultationTrackerDAO;
 import com.nt.dao.DoctorsDAO;
 import com.nt.dao.PatientDAO;
 import com.nt.dto.ConsultationDTO;
+import com.nt.dto.ConsultationTrackerDTO;
 import com.nt.dto.DoctorsDTO;
 import com.nt.dto.PatientDTO;
+import com.nt.util.GenerateTemplate;
+import com.nt.util.SendEmail;
 import com.nt.util.TimeManagementUtil;
 
 @RestController
@@ -34,10 +41,15 @@ public class DoctorsController {
 	@Autowired
 	private ConsultationDAO  consultationDao;
 	
-	 
+	@Autowired
+	private SendEmail  sendEmail;
 	
+	@Autowired
+	private GenerateTemplate generateTemplates;
 	
-
+	@Autowired
+	private ConsultationTrackerDAO consultationTrackerDao;
+	
 
 	@GetMapping(value = "/checkDoctorsAvailability/{disease}")
 	public DoctorsDTO checkDoctorsAvailability(@PathVariable(value = "disease") String diseaseName) {
@@ -97,8 +109,9 @@ public class DoctorsController {
 			return "PatientDetail saved";
 		}
 	}
-	@GetMapping(value="/getPatientDetails/{mobno}")
-	public PatientDTO getPatientDetails(@PathVariable(value="mobno") String mobileNo){
+	@GetMapping(value="/getPatientDetails/{mobno}/{docId}")
+	public ConsultationTrackerDTO getPatientDetails(@PathVariable(value="mobno") String mobileNo,
+			@PathVariable(value="docId") int docId){
 		PatientBO patientBo= patientDao.findByPatientMob(mobileNo);
 				
 		if (patientBo != null) {
@@ -137,10 +150,35 @@ public class DoctorsController {
 			
 			patientDto.setConsultationDTOList(consultationDTOList);
 			
-			return patientDto;
+			
+			String uniqueToken=createToken(patientDto.getPatientName());
+			
+			ConsultationTrackerBO consulationTrackerBo=new ConsultationTrackerBO();
+			ConsultationTrackerDTO consulationTrackerDto=new ConsultationTrackerDTO();
+			consulationTrackerDto.setTokenId(uniqueToken);
+			consulationTrackerDto.setPatientMob(patientBo.getPatientMob());
+			consulationTrackerDto.setDocId(docId);
+			
+			consulationTrackerBo.setTokenId(consulationTrackerDto.getTokenId());
+			consulationTrackerBo.setPatientMobile(consulationTrackerDto.getPatientMob());
+			consulationTrackerBo.setDocId(consulationTrackerDto.getDocId());
+			
+			consultationTrackerDao.save(consulationTrackerBo);
+			
+			
+			return consulationTrackerDto;
 		}
 		else
 			return null;
+		
+	}
+	public static String createToken(String patientName) {
+		StringBuilder token=new StringBuilder();
+		token.append(patientName.substring(0, 4));
+		token.append(new Date().getDate());
+		token.append(new Date().getHours());
+		
+		return token.toString();
 	}
 	@PostMapping(value="/savePatientDetails")
 	public String savePatientDetails(@RequestBody PatientDTO patientDto)throws Exception {
@@ -157,6 +195,16 @@ public class DoctorsController {
 		consultationBo.setMedications(patientDto.getConsultaDto().getMedications());
 		
 		consultationDao.saveAndFlush(consultationBo);
+		
+		//generate method call -- will generate  a template
+		//@Param patientDto
+		
+		  generateTemplates.generateTemplate(patientDto);
+		  
+		   File file = new File("D:/spring_prgms_workspace/FirstPDF.pdf");
+		  if (file.exists())
+		 
+			sendEmail.emailSend();
 		
 		return "Structure of the data";
 	}

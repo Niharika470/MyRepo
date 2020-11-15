@@ -26,6 +26,9 @@ public class DoctorsBO {
 	@Column(name="specialist_for")
 	private String specialistFor;
 	
+	@Column(name="MobileNo")
+	private String mobileNo;
+	
 	
 	public long getDocId() {
 		return docId;
@@ -56,6 +59,12 @@ public class DoctorsBO {
 	}
 	public void setSpecialistFor(String specialistFor) {
 		this.specialistFor = specialistFor;
+	}
+	public String getMobileNo() {
+		return mobileNo;
+	}
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
 	}
 	
 	

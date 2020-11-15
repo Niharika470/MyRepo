@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan({"com.nt.controller"})
+@ComponentScan({ "com.nt.controller" ,"com.nt.util"})
 @EnableJpaRepositories(basePackages = "com.nt.dao")
-@EntityScan(basePackages="com.nt.bo")
+@EntityScan(basePackages = "com.nt.bo")
 public class HospitalmanagementsystemApplication {
 
 	public static void main(String[] args) {
@@ -17,5 +17,4 @@ public class HospitalmanagementsystemApplication {
 		SpringApplication.run(HospitalmanagementsystemApplication.class, args);
 		System.out.println("Exit main");
 	}
-
 }

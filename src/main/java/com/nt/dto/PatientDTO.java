@@ -12,9 +12,19 @@ public class PatientDTO {
 	private String gender;
 	private String address;
 	private String bloodGroup;
+	private String emailId;
 	private List<ConsultationDTO> consultationDTOList;
 	private ConsultationDTO consultaDto;
+	private DoctorsDTO doctorsdto;
 	
+	public DoctorsDTO getDoctorsdto() {
+		return doctorsdto;
+	}
+
+	public void setDoctorsdto(DoctorsDTO doctorsdto) {
+		this.doctorsdto = doctorsdto;
+	}
+
 	public ConsultationDTO getConsultaDto() {
 		return consultaDto;
 	}
@@ -65,6 +75,13 @@ public class PatientDTO {
 	public String getBloodGroup() {
 		return bloodGroup;
 	}
+	@JsonProperty("emailId")
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+	public String getEmailId() {
+		return emailId;
+	}
 	
 	public List<ConsultationDTO> getConsultationDTOList() {
 		return consultationDTOList;
@@ -77,7 +94,7 @@ public class PatientDTO {
 	public String toString() {
 		return "PatientDTO [patientMob=" + patientMob + ", patientName=" + patientName + ", patientAge=" + patientAge
 				+ ", gender=" + gender + ", address=" + address + ", bloodGroup=" + bloodGroup
-				+ ", consultationDTOList=" + consultationDTOList + ", consultaDto=" + consultaDto + "]";
+				+ ",emailId="+emailId+", consultationDTOList=" + consultationDTOList + ", consultaDto=" + consultaDto + "]";
 	}
 
 	
