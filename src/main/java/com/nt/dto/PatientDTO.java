@@ -17,6 +17,12 @@ public class PatientDTO {
 	private ConsultationDTO consultaDto;
 	private DoctorsDTO doctorsdto;
 	
+
+
+	public void setConsultaDto(ConsultationDTO consultaDto) {
+		this.consultaDto = consultaDto;
+	}
+
 	public DoctorsDTO getDoctorsdto() {
 		return doctorsdto;
 	}
@@ -30,8 +36,8 @@ public class PatientDTO {
 	}
 	
 	@JsonProperty("consultaDto")
-	public void setConsultaDto(ConsultationDTO consultaDto) {
-		this.consultaDto = consultaDto;
+	public void setConsultationTrackerDto(ConsultationDTO consultationDto) {
+		this.consultaDto = consultationDto;
 	}
 	public String getPatientMob() {
 		return patientMob;

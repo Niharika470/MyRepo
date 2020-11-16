@@ -15,6 +15,9 @@ public interface DoctorsDAO extends JpaRepository<DoctorsBO, Long>{
 	  @Query("select d from DoctorsBO d where d.specialistFor =?1")
 	  List<DoctorsBO> findByDiseaseName(String disease);
 	 
+	  @Query("select d from DoctorsBO d where d.docId =?1")
+	  DoctorsBO findByDocId(long docId);
+	 
 
 }
 

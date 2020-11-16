@@ -29,6 +29,8 @@ import com.nt.util.GenerateTemplate;
 import com.nt.util.SendEmail;
 import com.nt.util.TimeManagementUtil;
 
+import antlr.StringUtils;
+
 @RestController
 public class DoctorsController {
 
@@ -172,6 +174,7 @@ public class DoctorsController {
 			return null;
 		
 	}
+	
 	public static String createToken(String patientName) {
 		StringBuilder token=new StringBuilder();
 		token.append(patientName.substring(0, 4));
@@ -180,6 +183,56 @@ public class DoctorsController {
 		
 		return token.toString();
 	}
+	@GetMapping(value="/getPatientDetail/{tokenid}")
+	public PatientDTO getPatientDetail(@PathVariable(value="tokenid") String tokenId){
+		ConsultationTrackerBO consultationTrackerBo= consultationTrackerDao.findByTokenId(tokenId);
+		consultationTrackerBo.getPatientMobile();
+		consultationTrackerBo.getDocId();
+		PatientBO patientBo=patientDao.findByPatientMob(consultationTrackerBo.getPatientMobile());
+		
+		Long docId = Long.valueOf(consultationTrackerBo.getDocId());
+		DoctorsBO doctorBo = doctorsDao.findByDocId(docId);
+		
+		List<ConsultationDTO> consultationDTOList = new ArrayList<>();
+		List<ConsultationBO> consultationBos=consultationDao.findByPatientMob(consultationTrackerBo.getPatientMobile());
+		for (ConsultationBO consultationBo : consultationBos) {
+			
+			//[{},{},{}]
+			
+			//creating th DTO object for UI
+			ConsultationDTO consultationDTO = new ConsultationDTO();
+			
+			//set the DTO from BO
+			consultationDTO.setDate(consultationBo.getDate());
+			consultationDTO.setAdmnDate(consultationBo.getAdmnDate ());
+			consultationDTO.setDiscDate(consultationBo.getDiscDate());
+			consultationDTO.setDocName(consultationBo.getDocName());
+			consultationDTO.setPatientType(consultationBo.getPatientType());
+			consultationDTO.setDisease(consultationBo.getDisease());
+			consultationDTO.setMedications(consultationBo.getMedications());
+			
+			consultationDTOList.add(consultationDTO);
+		}
+		PatientDTO patientDto=new PatientDTO();
+		DoctorsDTO doctorsDto=new DoctorsDTO();
+		patientDto.setPatientMob(patientBo.getPatientMob());
+		doctorsDto.setDocId(doctorBo.getDocId());
+		doctorsDto.setDocName(doctorBo.getDocName());
+		doctorsDto.setRoomNo(doctorBo.getRoomNo());
+		doctorsDto.setMobileNo(doctorBo.getMobileNo());
+		doctorsDto.setSpecialistFor(doctorBo.getSpecialistFor());
+		patientDto.setDoctorsdto(doctorsDto);
+		patientDto.setAddress(patientBo.getAddress());
+		patientDto.setBloodGroup(patientBo.getBloodGroup());
+		patientDto.setEmailId(patientBo.getEmailId());
+		patientDto.setGender(patientBo.getGender());
+		patientDto.setPatientAge(patientBo.getPatientAge());
+		patientDto.setPatientName(patientBo.getPatientName());
+		patientDto.setConsultationDTOList(consultationDTOList);
+		
+		return patientDto;
+	}
+	
 	@PostMapping(value="/savePatientDetails")
 	public String savePatientDetails(@RequestBody PatientDTO patientDto)throws Exception {
 		System.out.println(patientDto.toString());
